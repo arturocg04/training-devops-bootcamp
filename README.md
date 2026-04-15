@@ -2,7 +2,45 @@
 
 Repositorio de trabajo para el **Bootcamp DevOps 2026** (T-Systems + Universidad de Granada).
 
-Aqui esta el codigo de las aplicaciones con las que trabajareis durante los 4 dias del bootcamp. Cada dia le anadireis una pieza nueva: contenedores, pipelines, Kubernetes y monitoring.
+---
+
+## Material del bootcamp
+
+Slides, workshops, laboratorios y cheat-sheets estan en la plataforma del curso:
+
+**[carlospalanca.es/cursos](https://carlospalanca.es/cursos)**
+
+El instructor os dara la contrasenya de acceso el primer dia.
+
+| Dia | Temas | Que haceis con PromptLab |
+|-----|-------|--------------------------|
+| Dia 1 | Git, Docker, Docker Compose | Dockerizar la app |
+| Dia 2 | CI/CD, GitHub Actions | Pipeline automatico: test, lint, build, push |
+| Dia 3 | Kubernetes, Helm, GitOps con ArgoCD | Deploy en K8s, Helm chart, auto-sync |
+| Dia 4 | Terraform, Prometheus, Grafana | IaC + monitorizacion completa |
+
+---
+
+## La app: PromptLab
+
+**PromptLab** es una app para guardar, organizar y probar prompts de IA. Es el hilo conductor de todo el bootcamp — la misma app recorre Docker, CI/CD, Kubernetes y monitoring.
+
+```
+apps/promptlab/
+├── backend/        Node.js + Express + SQLite (puerto 3001)
+├── frontend/       HTML/CSS/JS + Nginx
+├── k8s/            Manifiestos Kubernetes
+├── helm/           Helm chart
+├── terraform/      Configuracion Terraform (Docker provider)
+├── monitoring/     Prometheus + Grafana
+└── docker-compose.yml
+```
+
+**Stack:** Node.js 20, Express, SQLite, Nginx, Prometheus metrics
+
+**Endpoints:** `/health`, `/metrics`, `/api/prompts`, `/api/prompts/:id/run`, `/api/categories`
+
+**Tests:** `cd apps/promptlab/backend && npm install && npm test` (14 tests)
 
 ---
 
@@ -33,7 +71,9 @@ Antes del primer dia, necesitais:
 - **VS Code** con extension WSL
 - **Node.js 20**, **kubectl**, **kind**, **helm**, **terraform** (dentro de WSL2)
 
-La guia paso a paso esta en la plataforma del curso (Dia 0 — Setup del entorno).
+Si vuestra red usa proxy corporativo, seguid la guia **WSL2 Proxy** en la plataforma.
+
+La guia paso a paso completa esta en la plataforma del curso (Dia 0 — Setup del entorno).
 
 ---
 
@@ -49,7 +89,16 @@ git clone https://github.com/TU-USUARIO/training-devops-bootcamp.git
 cd training-devops-bootcamp
 ```
 
-3. Abrid VS Code:
+3. **Verificad** que la app funciona:
+
+```bash
+cd apps/promptlab/backend
+npm install
+npm test
+# 14 tests passing
+```
+
+4. Abrid VS Code:
 
 ```bash
 code .
@@ -59,93 +108,14 @@ Ya estais listos para el Dia 1.
 
 ---
 
-## Aplicaciones
-
-### CampusEats (app principal — Dias 1-4)
-
-Plataforma de comida del campus universitario. Backend API + frontend + base de datos.
-
-```
-apps/campuseats/
-├── backend/     Express API + Mongoose (puerto 3333)
-├── frontend/    HTML estatico + Nginx (puerto 5173)
-├── mongo/       MongoDB 8.0 + seed data (10 platos)
-└── compose.yml  3 servicios con healthchecks
-```
-
-**Stack:** Node.js + Express + MongoDB + Nginx
-
-Para probarla en local:
-
-```bash
-cd apps/campuseats
-docker compose up -d
-```
-
-- Frontend: http://localhost:5173
-- API: http://localhost:3333/dishes
-
-### MyFitness (Dia 1 — primer contacto con Docker)
-
-App sencilla de seguimiento de ejercicios. La usareis para crear vuestro primer Dockerfile.
-
-```
-apps/myfitness/
-├── backend/     Express API + SQLite (puerto 3001)
-└── frontend/    HTML estatico + Nginx
-```
-
-**Stack:** Node.js + Express + SQLite
-
-### QuizBattle (Dia 4 — Terraform multi-servicio)
-
-Aplicacion de votacion en tiempo real con 5 microservicios. La desplegareis con Terraform.
-
-```
-apps/quizbattle/
-├── vote/        Python Flask - UI de votacion (puerto 5050)
-├── results/     Node Express - Dashboard tiempo real (puerto 5001)
-├── worker/      Node - Procesa votos Redis → PostgreSQL
-├── postgres/    Base de datos relacional
-├── redis/       Cache en memoria
-└── compose.yml  5 servicios
-```
-
-**Stack:** Python + Node.js + Redis + PostgreSQL
-
----
-
 ## Que vais a construir
 
-Durante el bootcamp, este repositorio ira creciendo con vuestro trabajo:
-
-| Dia | Que anadis | Archivos nuevos |
-|-----|-----------|----------------|
-| Dia 1 | Dockerfiles + Docker Compose | `apps/*/Dockerfile`, `docker-compose.yml` |
-| Dia 2 | Pipeline CI/CD | `.github/workflows/ci.yml` |
-| Dia 3 | Manifiestos Kubernetes | `k8s/*.yaml` |
-| Dia 4 | Infraestructura Terraform + Monitoring | `terraform-*/`, dashboards Grafana |
-
----
-
-## Estructura final (despues del Dia 4)
-
-```
-training-devops-bootcamp/
-├── apps/
-│   ├── campuseats/          ← App principal
-│   ├── myfitness/           ← App Docker basico
-│   └── quizbattle/          ← App multi-servicio
-├── .github/
-│   └── workflows/
-│       └── ci.yml           ← Pipeline CI/CD (Dia 2)
-├── k8s/                     ← Manifiestos Kubernetes (Dia 3)
-│   ├── mongo-*.yaml
-│   ├── backend-*.yaml
-│   ├── frontend-*.yaml
-│   └── configmap.yaml
-└── README.md
-```
+| Dia | Que anadis | Resultado |
+|-----|-----------|-----------|
+| Dia 1 | Dockerfiles + Docker Compose | PromptLab corriendo en contenedores |
+| Dia 2 | Pipeline CI/CD | Tests, lint y build automaticos en cada push |
+| Dia 3 | Deploy en Kubernetes + Helm + ArgoCD | PromptLab en un cluster K8s con GitOps |
+| Dia 4 | Terraform + Prometheus + Grafana | Infraestructura como codigo + dashboard de metricas |
 
 ---
 

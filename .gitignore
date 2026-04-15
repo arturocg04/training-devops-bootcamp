@@ -1,12 +1,18 @@
+# Dependencias
 node_modules/
-*.db
+
+# Variables de entorno (secretos)
 .env
+.env.local
+
+# Base de datos local de PromptLab
+backend/data/promptlab.db
+
+# Sistema operativo
 .DS_Store
-*.log
-.terraform/
-*.tfstate
-*.tfstate.backup
-.terraform.lock.hcl
-terraform-lab/
-terraform-quizbattle/
-mysql-backup.tar.gz
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.swp
