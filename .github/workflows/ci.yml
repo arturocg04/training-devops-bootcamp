@@ -1,9 +1,6 @@
 name: CI Pipeline
 
 on:
-  permissions:
-    contents: read
-    packages: write
   push:
 
 jobs:
@@ -35,6 +32,9 @@ jobs:
         working-directory: ./apps/promptlab/backend
   build:
     runs-on: ubuntu-latest
+    permissions:
+    contents: read
+    packages: write
     needs: [test, lint]
     steps:
       - name: Checkout code
