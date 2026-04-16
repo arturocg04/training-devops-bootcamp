@@ -1,21 +1,5 @@
-# Dependencias
-node_modules/
-
-# Variables de entorno (secretos)
-.env
-.env.local
-
-# Base de datos local de PromptLab
-backend/data/promptlab.db
-
-# Sistema operativo
-.DS_Store
-Thumbs.db
-
-# IDEs
-.idea/
-.vscode/
-*.swp
-
-# Apps excluidas
-apps/promptlab-desktop/
+node_modules
+tests
+.eslintrc.json
+data/promptlab.db
+.git
